@@ -93,6 +93,18 @@ describe Money::Collection do
     end
   end
 
+  describe 'no side effect' do
+    it 'does not change original array that is passed in the initialize method' do
+      m1 = Money.new(10,:usd)
+      ary = [m1]
+
+      c = Money::Collection.new(ary)
+      c << Money.new(1,:usd)
+
+      ary.size.must_equal 1
+      ary[0].must_equal m1
+    end
+  end
 end
 
 # Adds up array of Money one by one and returns the sum.

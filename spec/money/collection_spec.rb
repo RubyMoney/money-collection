@@ -66,6 +66,17 @@ describe Money::Collection do
       c.sum.must_equal Money.new(11,:usd)
     end
 
+    it 'sums correctly, avoiding rounding twice if possible' do
+      ary = [
+        Money.new(10,:usd),
+        Money.new(1,:foo),
+      ]
+
+      c = Money::Collection.new(ary)
+
+      c.sum(:foo).must_equal Money.new(21,:foo)
+    end
+
     it 'returns sum in the specified currency' do
       ary = [
         Money.new(10,:usd),

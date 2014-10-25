@@ -88,6 +88,24 @@ describe Money::Collection do
       c.sum('foo').must_equal Money.new(22,:foo)
       c.sum('usd').must_equal Money.new(11,:usd)
     end
+
+    it 'returns sum large number of Money' do
+      10.times do
+        # force first bunch to be FOO, the a bunch of USD,
+        # so there won't be currency conversion error even for native sum method
+        ary = 1000.times.map do
+          Money.new(Random.rand(100000), :foo)
+        end
+        ary.concat(
+          1000.times.map do
+            Money.new(Random.rand(100000), :usd)
+          end
+        )
+
+        c = Money::Collection.new(ary)
+        c.sum('foo').must_equal normal_sum(ary)
+      end
+    end
   end
 
   describe '#concat' do

@@ -108,6 +108,50 @@ describe Money::Collection do
     end
   end
 
+  describe '#min' do
+    it 'returns accurate smallest Money object' do
+      ary = [
+        Money.new(30,:foo),
+        Money.new(1,:usd),
+        Money.new(3,:foo),
+      ]
+
+      c = Money::Collection.new(ary)
+      c.min.must_equal Money.new(1,:usd)
+    end
+    it 'returns smallest Money objects (from many items)' do
+      ary = 1000.times.map do
+        Money.new(Random.rand(100000) + 10, :foo)
+      end
+      c = Money::Collection.new(ary)
+      min = Money.new(1, :usd)
+      c << min
+      c.min.must_equal min
+    end
+  end
+
+  describe '#max' do
+    it 'returns accurate biggest Money object' do
+      ary = [
+        Money.new(30,:foo),
+        Money.new(1,:usd),
+        Money.new(3,:foo),
+      ]
+
+      c = Money::Collection.new(ary)
+      c.max.must_equal Money.new(30,:foo)
+    end
+    it 'returns biggest Money objects (from many items)' do
+      ary = 1000.times.map do
+        Money.new(Random.rand(100000), :foo)
+      end
+      c = Money::Collection.new(ary)
+      max = Money.new(100001, :usd)
+      c << max
+      c.max.must_equal max
+    end
+  end
+
   describe '#concat' do
     it 'concats Money objects to collection' do
       ary = [

@@ -162,6 +162,7 @@ describe Money::Collection do
       c = Money::Collection.new
       c.concat ary
 
+      c.size.must_equal 2
       c.sum('foo').must_equal Money.new(22,:foo)
     end
     it 'concats Money objects to collection multiple times' do
@@ -174,6 +175,7 @@ describe Money::Collection do
       c.concat ary
       c.concat ary
 
+      c.size.must_equal 4
       c.sum('foo').must_equal Money.new(44,:foo)
     end
   end

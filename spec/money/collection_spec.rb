@@ -12,6 +12,16 @@ describe Money::Collection do
 
     Money.add_rate("FOO", "USD", 0.5)
     Money.add_rate("USD", "FOO", 2)
+
+
+    bar = {
+      :iso_code        => "BAR",
+      :subunit_to_unit => 100,
+    }
+    Money::Currency.register(bar)
+
+    Money.add_rate("BAR", "FOO", 1)
+    Money.add_rate("FOO", "BAR", nil) # Disallow conversion
   end
 
   it 'has version' do
@@ -87,6 +97,17 @@ describe Money::Collection do
 
       c.sum('foo').must_equal Money.new(22,:foo)
       c.sum('usd').must_equal Money.new(11,:usd)
+    end
+
+    it 'returns sum in the specified currency and without unnecessary intermediate conversion' do
+      ary = [
+        Money.new(10,:usd),
+        Money.new(1,:bar),
+      ]
+
+      c = Money::Collection.new(ary)
+
+      c.sum('foo').must_equal Money.new(21,:foo)
     end
 
     it 'returns sum large number of Money' do

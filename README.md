@@ -52,5 +52,5 @@ The followings areas can use some of your expertise:
 
 ## License
 
-MIT License (See LICENSE.txt)
+MIT License (See LICENSE)
 

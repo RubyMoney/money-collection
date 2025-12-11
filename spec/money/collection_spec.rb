@@ -1,6 +1,4 @@
-require 'helper'
-require 'money'
-require 'money/collection'
+require "spec_helper"
 
 describe Money::Collection do
   before do
@@ -25,20 +23,20 @@ describe Money::Collection do
   end
 
   it 'has version' do
-    Money::Collection.const_get('VERSION').wont_be_empty
+    _(Money::Collection.const_get('VERSION')).wont_be_empty
   end
 
   describe '#sum' do
 
     it 'sums with no element' do
       c = Money::Collection.new
-      c.sum.must_equal Money.new(0)
+      _(c.sum).must_equal Money.new(0)
     end
 
     it 'sums with single element' do
       c = Money::Collection.new
       c << Money.new(10,:usd)
-      c.sum.must_equal Money.new(10,:usd)
+      _(c.sum).must_equal Money.new(10,:usd)
     end
 
     it 'sums same currency' do
@@ -50,7 +48,7 @@ describe Money::Collection do
 
       c = Money::Collection.new(ary)
 
-      c.sum.must_equal Money.new(60,:usd)
+      _(c.sum).must_equal Money.new(60,:usd)
     end
 
     it 'sums different currencies' do
@@ -61,7 +59,7 @@ describe Money::Collection do
 
       c = Money::Collection.new(ary)
 
-      c.sum.must_equal normal_sum(ary)
+      _(c.sum).must_equal normal_sum(ary)
     end
 
     it 'sums correctly, avoiding rounding down error' do
@@ -73,7 +71,7 @@ describe Money::Collection do
 
       c = Money::Collection.new(ary)
 
-      c.sum.must_equal Money.new(11,:usd)
+      _(c.sum).must_equal Money.new(11,:usd)
     end
 
     it 'sums correctly, avoiding rounding twice if possible' do
@@ -84,7 +82,7 @@ describe Money::Collection do
 
       c = Money::Collection.new(ary)
 
-      c.sum(:foo).must_equal Money.new(21,:foo)
+      _(c.sum(:foo)).must_equal Money.new(21,:foo)
     end
 
     it 'returns sum in the specified currency' do
@@ -95,8 +93,8 @@ describe Money::Collection do
 
       c = Money::Collection.new(ary)
 
-      c.sum('foo').must_equal Money.new(22,:foo)
-      c.sum('usd').must_equal Money.new(11,:usd)
+      _(c.sum('foo')).must_equal Money.new(22,:foo)
+      _(c.sum('usd')).must_equal Money.new(11,:usd)
     end
 
     it 'returns sum in the specified currency and without unnecessary intermediate conversion' do
@@ -107,7 +105,7 @@ describe Money::Collection do
 
       c = Money::Collection.new(ary)
 
-      c.sum('foo').must_equal Money.new(21,:foo)
+      _(c.sum('foo')).must_equal Money.new(21,:foo)
     end
 
     it 'returns sum large number of Money' do
@@ -124,7 +122,7 @@ describe Money::Collection do
         )
 
         c = Money::Collection.new(ary)
-        c.sum('foo').must_equal normal_sum(ary)
+        _(c.sum('foo')).must_equal normal_sum(ary)
       end
     end
   end
@@ -138,7 +136,7 @@ describe Money::Collection do
       ]
 
       c = Money::Collection.new(ary)
-      c.min.must_equal Money.new(1,:usd)
+      _(c.min).must_equal Money.new(1,:usd)
     end
     it 'returns smallest Money objects (from many items)' do
       ary = 1000.times.map do
@@ -147,7 +145,7 @@ describe Money::Collection do
       c = Money::Collection.new(ary)
       min = Money.new(1, :usd)
       c << min
-      c.min.must_equal min
+      _(c.min).must_equal min
     end
   end
 
@@ -160,7 +158,7 @@ describe Money::Collection do
       ]
 
       c = Money::Collection.new(ary)
-      c.max.must_equal Money.new(30,:foo)
+      _(c.max).must_equal Money.new(30,:foo)
     end
     it 'returns biggest Money objects (from many items)' do
       ary = 1000.times.map do
@@ -169,7 +167,7 @@ describe Money::Collection do
       c = Money::Collection.new(ary)
       max = Money.new(100001, :usd)
       c << max
-      c.max.must_equal max
+      _(c.max).must_equal max
     end
   end
 
@@ -183,8 +181,8 @@ describe Money::Collection do
       c = Money::Collection.new
       c.concat ary
 
-      c.size.must_equal 2
-      c.sum('foo').must_equal Money.new(22,:foo)
+      _(c.size).must_equal 2
+      _(c.sum('foo')).must_equal Money.new(22,:foo)
     end
     it 'concats Money objects to collection multiple times' do
       ary = [
@@ -196,8 +194,8 @@ describe Money::Collection do
       c.concat ary
       c.concat ary
 
-      c.size.must_equal 4
-      c.sum('foo').must_equal Money.new(44,:foo)
+      _(c.size).must_equal 4
+      _(c.sum('foo')).must_equal Money.new(44,:foo)
     end
   end
 
@@ -208,7 +206,7 @@ describe Money::Collection do
       c << Money.new(10,:foo)
       c << Money.new(10,:usd)
 
-      c.sum.must_equal Money.new(25,:usd)
+      _(c.sum).must_equal Money.new(25,:usd)
     end
   end
 
@@ -220,8 +218,8 @@ describe Money::Collection do
       c = Money::Collection.new(ary)
       c << Money.new(1,:usd)
 
-      ary.size.must_equal 1
-      ary[0].must_equal m1
+      _(ary.size).must_equal 1
+      _(ary[0]).must_equal m1
     end
   end
 end

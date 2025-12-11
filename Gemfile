@@ -1,4 +1,11 @@
-source 'https://rubygems.org'
+# frozen_string_literal: true
 
-# Specify your gem's dependencies in money-collection.gemspec
+source "https://rubygems.org"
+
+# Specs
+gem "minitest"
+
+# Tasks
+gem "rake"
+
 gemspec

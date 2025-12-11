@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency "money", "~> 7.0"
 
+  s.required_ruby_version = ">= 3.1"
+
   s.files         = `git ls-files -z -- lib/* CHANGELOG.md LICENSE money-collection.gemspec README.md`.split("\x0")
   s.require_paths = ["lib"]
 
